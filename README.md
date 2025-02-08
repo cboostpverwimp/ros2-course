@@ -58,9 +58,13 @@ source install/setup.bash
 ## Start BFFP Demo Factory
 After installing the rosdeps and building and sourcing the workspace (see [Installing in Container](#installing-in-container)), use: `ros2 launch bffp_gazebo factory_moveit_full.launch.py` to launch the demo. This launches a Gazebo simulation and a HC10DTP with full MoveIt2 support. Rviz2 is also launched to visualize ROS2 topics.
 
+## Start Motoman demo
+TODO
+
 ## Start Tiago simulation
 ### Tiago 2D navigation using Nav2
 **Documentation** : https://docs.pal-robotics.com/sdk-dev/navigation
+
 1️⃣ Start Gazebo simulation of Tiago robot:
 ``` bash
 ros2 launch tiago_gazebo tiago_gazebo.launch.py is_public_sim:=True world_name:=house_pick_and_place
@@ -100,5 +104,6 @@ ros2 launch tiago_moveit_config moveit_rviz.launch.py
 9️⃣ Command MoveIt from Python file `ros2_ws/src/tiago_pick_and_place/tiago_pick_and_place/pick.py`:
 
 ```bash
+# Warning: before executing, first edit the pick.py file to uncomment the code that you want
 ros2 launch tiago_pick_and_place plan.launch.py use_sim_time:=True
 ```
