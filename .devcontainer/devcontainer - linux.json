@@ -21,7 +21,8 @@
                 "redhat.vscode-xml",
                 "tamasfe.even-better-toml",
                 "timonwong.shellcheck",
-                "yzhang.markdown-all-in-one"
+                "yzhang.markdown-all-in-one",
+                "tomoki1207.pdf"
             ],
             "settings": {
                 "files.associations": {
@@ -40,7 +41,9 @@
     },
     "workspaceFolder": "/home/rosdev",
     "workspaceMount": "source=${localWorkspaceFolder}/src,target=/home/rosdev/ros2_ws/src,type=bind",
-    "mounts": [],
+    "mounts": [
+        "source=${localWorkspaceFolder}/bashrc,target=/home/rosdev/.bashrc,type=bind"
+    ],
     "runArgs": [
         "--net=host",
         "-v", "/tmp/.X11-unix:/tmp/.X11-unix",

@@ -13,9 +13,39 @@ RUN apt update -q \
     software-properties-common \
     python3-pip \
     xauth \
-    ros-${ROS_DISTRO}-plotjuggler-ros \
-    ros-${ROS_DISTRO}-moveit \
-    ros-${ROS_DISTRO}-ros-gz \
+    ros-${ROS_DISTRO}-cartographer-ros \ 
+    ros-${ROS_DISTRO}-can-msgs \ 
+    ros-${ROS_DISTRO}-controller-manager \ 
+    ros-${ROS_DISTRO}-control-msgs \ 
+    ros-${ROS_DISTRO}-demo-nodes-cpp \ 
+    ros-${ROS_DISTRO}-demo-nodes-py \ 
+    ros-${ROS_DISTRO}-gripper-controllers \ 
+    ros-${ROS_DISTRO}-image-transport \ 
+    ros-${ROS_DISTRO}-image-tools \ 
+    ros-${ROS_DISTRO}-image-view \ 
+    ros-${ROS_DISTRO}-interactive-marker-twist-server \ 
+    ros-${ROS_DISTRO}-rqt-joint-trajectory-controller \
+    ros-${ROS_DISTRO}-joy-linux \ 
+    ros-${ROS_DISTRO}-kinematics-interface \ 
+    ros-${ROS_DISTRO}-moveit \ 
+    ros-${ROS_DISTRO}-moveit-msgs \ 
+    ros-${ROS_DISTRO}-moveit-py \ 
+    ros-${ROS_DISTRO}-moveit-planners-chomp \ 
+    ros-${ROS_DISTRO}-ompl \ 
+    ros-${ROS_DISTRO}-plotjuggler-ros \ 
+    ros-${ROS_DISTRO}-realtime-tools \ 
+    ros-${ROS_DISTRO}-ros2-control \ 
+    ros-${ROS_DISTRO}-ros2-controllers \ 
+    ros-${ROS_DISTRO}-ros-gz \ 
+    ros-${ROS_DISTRO}-rqt-console \ 
+    ros-${ROS_DISTRO}-rqt-graph \ 
+    ros-${ROS_DISTRO}-rqt-service-caller \ 
+    ros-${ROS_DISTRO}-srdfdom \ 
+    ros-${ROS_DISTRO}-teleop-twist-joy \ 
+    ros-${ROS_DISTRO}-teleop-twist-keyboard \ 
+    ros-${ROS_DISTRO}-test-msgs \ 
+    ros-${ROS_DISTRO}-turtlesim \ 
+    ros-${ROS_DISTRO}-twist-mux \
     '~nros-${ROS_DISTRO}-rqt*' \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -44,7 +74,19 @@ ENV SHELL=/bin/bash
 
 USER $USERNAME
 
-# Create workspace so that user own this directory
+# Download and install Tiago Harmonic
+RUN mkdir -p /home/${USERNAME}/tiago_ws/src
+WORKDIR /home/${USERNAME}/tiago_ws/src
+RUN git clone https://github.com/Tiago-Harmonic/tiago_harmonic.git -b ${ROS_DISTRO}
+RUN vcs import . < tiago_harmonic/dependencies.repos
+RUN wget https://raw.githubusercontent.com/ymollard/pal_gripper/6b51bf9fa56864fb03ef06400a580592c31f8794/pal_gripper_description/urdf/gripper.urdf.xacro -O /home/${USERNAME}/tiago_ws/src/pal_gripper/pal_gripper_description/urdf/gripper.urdf.xacro
+RUN rm -rf /home/${USERNAME}/tiago_ws/src/br2_gazebo_worlds/
+RUN git clone https://github.com/ymollard/br2_gazebo_worlds.git  # Replace br2_gazebo_worlds with customized worlds
+WORKDIR /home/${USERNAME}/tiago_ws
+RUN sudo apt update && rosdep update && rosdep install --from-paths src --ignore-src -y -r
+RUN /bin/bash -c "source /opt/ros/"${ROS_DISTRO}"/setup.bash; colcon build --symlink-install"
+
+# Create workspace so that user owns this directory
 RUN mkdir -p /home/${USERNAME}/ros2_ws/src
 WORKDIR /home/${USERNAME}/ros2_ws
 # Install rosdeps from packages
@@ -55,10 +97,7 @@ RUN sudo apt update && rosdep update \
 RUN /bin/bash -c "source /opt/ros/"${ROS_DISTRO}"/setup.bash; colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml; colcon mixin update default"
 
 # Build Workspace
-# RUN /bin/bash -c "source /opt/ros/"${ROS_DISTRO}"/setup.bash; colcon build --symlink-install"
-
-# Add source-ing to .bashrc
-RUN echo 'source /opt/ros/'${ROS_DISTRO}'/setup.bash' >> /home/${USERNAME}/.bashrc 
-# RUN echo 'source /home/'${USERNAME}'/ros2_ws/install/setup.bash' >> /home/${USERNAME}/.bashrc
+WORKDIR /home/${USERNAME}/ros2_ws/
+RUN /bin/bash -c "source /opt/ros/"${ROS_DISTRO}"/setup.bash; colcon build --symlink-install"
 
 CMD ["bash"]
