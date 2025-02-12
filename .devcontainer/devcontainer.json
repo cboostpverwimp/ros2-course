@@ -37,12 +37,13 @@
     },
     "privileged": true,
     "containerEnv": {
-        "DISPLAY": ":1"
+        "DISPLAY": ":0"
     },
     "workspaceFolder": "/home/rosdev",
     "workspaceMount": "source=${localWorkspaceFolder}/src,target=/home/rosdev/ros2_ws/src,type=bind",
     "mounts": [
-        "source=${localWorkspaceFolder}/bashrc,target=/home/rosdev/.bashrc,type=bind"
+        "source=${localWorkspaceFolder}/bashrc,target=/home/rosdev/.bashrc,type=bind",
+        "source=${localWorkspaceFolder}/vscode,target=/home/rosdev/.vscode,type=bind"
     ],
     "runArgs": [
         "--net=host",
