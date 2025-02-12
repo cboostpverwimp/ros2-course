@@ -37,7 +37,7 @@
     },
     "privileged": true,
     "containerEnv": {
-        "DISPLAY": ":1"
+        "DISPLAY": ":0"
     },
     "workspaceFolder": "/home/rosdev",
     "workspaceMount": "source=${localWorkspaceFolder}/src,target=/home/rosdev/ros2_ws/src,type=bind",
