@@ -1,6 +1,6 @@
 # ros2-course
 DevContainer setup for ROS2 course
-
+[LINK TO ROS2 COURSE SHEETS](https://ros2cboost.netlify.app/)
 
 ## Prerequisites
 
