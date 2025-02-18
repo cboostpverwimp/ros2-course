@@ -55,7 +55,7 @@ RUN if id -u $USER_UID ; then userdel `id -un $USER_UID` ; fi
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -G video -m $USERNAME \
     # Add sudo support
     && apt-get update \
     && apt-get install -y sudo \
