@@ -45,6 +45,17 @@
         "source=${localWorkspaceFolder}/bashrc,target=/home/rosdev/.bashrc,type=bind"
     ],
     "runArgs": [
-        "--net=host"
+        "--net=host",
+        "--gpus=all",
+         "--device", "/dev/dxg",
+         "--device", "/dev/dri/card0",
+         "--device", "/dev/dri/renderD128",
+         "-v", "/run/desktop/mnt/host/wslg/.X11-unix:/tmp/.X11-unix",
+         "-v", "/run/desktop/mnt/host/wslg:/mnt/wslg",
+         "-v", "/usr/lib/wsl:/usr/lib/wsl",
+         "-e", "DISPLAY=:0",
+         "-e", "WAYLAND_DISPLAY=wayland-0",
+         "-e", "XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir",
+         "-e", "PULSE_SERVER=/mnt/wslg/PulseServer"
     ]
 }
