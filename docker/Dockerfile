@@ -13,6 +13,7 @@ RUN apt update -q \
     software-properties-common \
     python3-pip \
     xauth \
+    mesa-va-drivers \
     ros-${ROS_DISTRO}-cartographer-ros \ 
     ros-${ROS_DISTRO}-can-msgs \ 
     ros-${ROS_DISTRO}-controller-manager \ 
