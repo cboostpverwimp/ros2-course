@@ -45,8 +45,8 @@
         "source=${localWorkspaceFolder}/bashrc,target=/home/rosdev/.bashrc,type=bind"
     ],
     "runArgs": [
-        "--net=host",
         "--gpus=all",
+        "--net=host",
          "--device", "/dev/dxg",
          "--device", "/dev/dri/card0",
          "--device", "/dev/dri/renderD128",
@@ -56,6 +56,8 @@
          "-e", "DISPLAY=:0",
          "-e", "WAYLAND_DISPLAY=wayland-0",
          "-e", "XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir",
-         "-e", "PULSE_SERVER=/mnt/wslg/PulseServer"
+         "-e", "PULSE_SERVER=/mnt/wslg/PulseServer",
+         "-e", "LD_LIBRARY_PATH=/usr/lib/wsl/lib",
+         "-e", "MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA" // for NVIDIA dedicated GPU
     ]
 }
